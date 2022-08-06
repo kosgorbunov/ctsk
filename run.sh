@@ -40,6 +40,7 @@ server_start() {
     -p 8600:8600/udp \
     --name=$consul_server \
     consul agent -server -ui -node=server-1 -bootstrap-expect=1 -client=0.0.0.0 | tee -a $logfile &>/dev/null
+    echo
 }
 
 client_start() {
@@ -70,6 +71,7 @@ justwaiting() {
   #  docker ps
   echo "waiting ${1} seconds"
   sleep "${1}"
+  echo
 }
 
 init
