@@ -36,7 +36,11 @@ init() {
   export jenkins=jenkins
   export logfile=all.log
   export jenkins_home=/tmp/jenkins_home
-  cleanup
+  cleanup $consul_server
+  cleanup $consul_client
+  cleanup $jenkins
+  # TODO declare used ports
+  # TODO check if ports not occupied
 }
 
 serverStart() {
@@ -99,7 +103,7 @@ justwaiting() {
 
 jenkinsBanner() {
   echo "Enter below passphrase in http://localhost:8080/ and then install suggested plugins"
-  cat /tmp/jenkins_home/secrets/initialAdminPassword
+  cat ${jenkins_home}/secrets/initialAdminPassword
 }
 
 init
