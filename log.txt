@@ -1,23 +1,4 @@
-1st click for initializing your environment
--------------------------------------------
-
-
-rm -vrf docker-consul-master
 > ~/.gitconfig
-git clone https://github.com/hashicorp/docker-consul.git
-docker-consul/0.X/
-sudo docker build -f Dockerfile .
-
-docker tag  8a9d488cb65e type-consul-server
-docker run  -d type-consul-server
-
-
-docker run -d --name=consul -p 8300:8300 -p 8500:8500
-
-
-
-
-
 
 docker pull consul
 docker images -f 'reference=consul'
