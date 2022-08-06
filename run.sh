@@ -9,7 +9,7 @@ cleanup() {
   echo -n "Removing container: "
   docker rm "${1}" 2>/dev/null
   test $? -eq 0 || echo "no any"
-  docker ps -a | grep "${1}"
+#  docker ps -a | grep "${1}"
   touch $logfile
   echo ---------------------------
   echo
@@ -25,7 +25,7 @@ init() {
   echo CTask implementation purposed
   echo -----------------------------
   export consul_server=csrv
-  export consul_client=csrv
+  export consul_client=ccli
   export logfile=all.log
   cleanup
 }
@@ -33,6 +33,7 @@ init() {
 server_start() {
 
   echo Starting consul server
+  echo ">>>>>>>>>>>>>>>>>>>>>>"
   docker run \
     -d \
     -p 8500:8500 \
@@ -43,9 +44,11 @@ server_start() {
 
 client_start() {
   echo Starting consul client
+  echo ">>>>>>>>>>>>>>>>>>>>>>"
   docker run \
     --name=${consul_client} \
     consul agent -node=client-1 -join=172.17.0.2
+  echo
 }
 
 click1() {
