@@ -9,6 +9,9 @@ echo 1st click for initializing your environment
 echo -------------------------------------------
 echo Clicking 1...
 
+#####################
+consul-server=csrv
+#####################
 echo Starting consul server
 docker pull consul
 docker images -f 'reference=consul'
@@ -16,6 +19,12 @@ docker run \
     -d \
     -p 8500:8500 \
     -p 8600:8600/udp \
-    --name=consul-server \
+    --name=$consul-server \
     consul agent -server -ui -node=server-1 -bootstrap-expect=1 -client=0.0.0.0
+
+
+docker ps
+sleep 10
+echo Stopping consul server
+docker stop $consul-server
 
