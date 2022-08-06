@@ -15,7 +15,7 @@ cleanup() {
   echo
 }
 
-getImage() {
+getImages() {
   echo Pulling image
   docker pull consul | tee -a $logfile &>/dev/null
   docker pull jenkins/jenkins:lts-jdk11 | tee -a $logfile &>/dev/null
@@ -32,7 +32,7 @@ init() {
   cleanup
 }
 
-server_start() {
+serverStart() {
 
   echo Starting consul server
   echo ">>>>>>>>>>>>>>>>>>>>>>"
@@ -45,7 +45,7 @@ server_start() {
   echo
 }
 
-client_start() {
+clientStart() {
   echo Starting consul client
   echo ">>>>>>>>>>>>>>>>>>>>>>"
   docker run \
@@ -55,7 +55,7 @@ client_start() {
   echo
 }
 
-jenkins_start() {
+jenkinsStart() {
   echo Starting Jenkins
   echo ">>>>>>>>>>>>>>>>"
   docker run \
@@ -74,9 +74,10 @@ click1() {
   echo Clicking 1...
   echo -------------
 
-  getImage
-  server_start
-  client_start
+  getImages
+  serverStart
+  clientStart
+  jenkinsStart
 }
 
 justwaiting() {
