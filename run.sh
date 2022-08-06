@@ -76,6 +76,8 @@ jenkinsStart() {
   echo Starting Jenkins
   echo ">>>>>>>>>>>>>>>>"
   mkdir -vp $jenkins_home | tee -a $logfile &>/dev/null
+  export JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+  export JENKINS_OPTS=--argumentsRealm.roles.user=admin --argumentsRealm.passwd.admin=admin --argumentsRealm.roles.admin=admin
   docker run \
     -d \
     -p 8080:8080 -p 50000:50000 \
@@ -137,10 +139,15 @@ jenkinsActivate() {
 
 #  curl -v -d "security-token=$(cat /tmp/jenkins_home/secrets/initialAdminPassword)" -X POST http://localhost:8080/login?from=%2F
 
-  JSESSIONID=$(curl -X GET -sS -H "Authorization: Bearer $SA_TOKEN" -D - "http://localhost:8080" -o /dev/null | grep JSESSIONID | sed "s/^Set-Cookie: \(.*\); Path=\(.*\)$/\1/")
+#  JSESSIONID=$(curl -X GET -sS -H "Authorization: Bearer $SA_TOKEN" -D - "http://localhost:8080" -o /dev/null | grep JSESSIONID | sed "s/^Set-Cookie: \(.*\); Path=\(.*\)$/\1/")
 
   echo "Step1: enter $(cat /tmp/jenkins_home/secrets/initialAdminPassword) in http://localhost:8080/"
   echo "Step2: push the button 'Install suggested plugins'"
+  echo "Step3: user creation: skip and continue as admin"
+  echo "Step4: keep Jenkins URL as default"
+  echo "Step5: Save and Finish"
+
+
   echo
 }
 
