@@ -1,32 +1,37 @@
 #!/usr/bin/env bash
 
 cleanup() {
-  echo Cleanup now...
-  echo -------------------------
+  echo Cleanup "${1}"...
+  echo ---------------------------
   echo -n "Stopping container: "
-  docker stop $consul_server 2>/dev/null
+  docker stop "${1}" 2>/dev/null
   test $? -eq 0 || echo "no any"
   echo -n "Removing container: "
-  docker rm $consul_server 2>/dev/null
+  docker rm "${1}" 2>/dev/null
   test $? -eq 0 || echo "no any"
-  docker ps -a | grep $consul_server
+  docker ps -a | grep "${1}"
   touch $logfile
-  echo -------------------------
+  echo ---------------------------
   echo
+}
+
+getImage() {
+  echo Pulling image
+  docker pull consul | tee -a $logfile &>/dev/null
+  docker images -f 'reference=consul' | tee -a $logfile &>/dev/null
 }
 
 init() {
   echo CTask implementation purposed
   echo -----------------------------
   export consul_server=csrv
+  export consul_client=csrv
   export logfile=all.log
   cleanup
 }
 
-csrv_start() {
-  echo Pulling image
-  docker pull consul | tee -a $logfile &>/dev/null
-  docker images -f 'reference=consul'
+server_start() {
+
   echo Starting consul server
   docker run \
     -d \
@@ -34,6 +39,13 @@ csrv_start() {
     -p 8600:8600/udp \
     --name=$consul_server \
     consul agent -server -ui -node=server-1 -bootstrap-expect=1 -client=0.0.0.0 | tee -a $logfile &>/dev/null
+}
+
+client_start() {
+  echo Starting consul client
+  docker run \
+    --name=${consul_client} \
+    consul agent -node=client-1 -join=172.17.0.2
 }
 
 click1() {
@@ -45,11 +57,13 @@ click1() {
   echo Clicking 1...
   echo -------------
 
-  csrv_start
+  getImage
+  server_start
+  client_start
 }
 
 justwaiting() {
-  docker ps
+  #  docker ps
   echo "waiting ${1} seconds"
   sleep "${1}"
 }
@@ -57,4 +71,5 @@ justwaiting() {
 init
 click1
 justwaiting 3
-cleanup
+cleanup $consul_server
+cleanup client
