@@ -75,7 +75,7 @@ clientStart() {
 jenkinsStart() {
   echo Starting Jenkins
   echo ">>>>>>>>>>>>>>>>"
-  mkdir -vp $jenkins_home
+  mkdir -vp $jenkins_home | tee -a $logfile &>/dev/null
   docker run \
     -d \
     -p 8080:8080 -p 50000:50000 \
@@ -86,7 +86,7 @@ jenkinsStart() {
   echo "Waiting jenkins to launch on 8080..."
   while ! nc -z localhost 8080; do
     sleep 0.5
-    echo .
+    echo -n .
   done
 
   echo "Jenkins up and running"
@@ -127,7 +127,9 @@ jenkinsActivate() {
   #  echo "Step2: paste there next passphras: $(cat  /tmp/jenkins_home/secrets/initialAdminPassword)"
   #  echo "Step3: push the button 'Install suggested plugins'"
 
-  while [ -f /tmp/jenkins_home/secrets/initialAdminPassword ]; do
+  echo "Waiting initialAdminPassword to appear..."
+
+  while [ ! -f /tmp/jenkins_home/secrets/initialAdminPassword ]; do
     sleep 0.5
     echo -n .
   done
@@ -137,8 +139,8 @@ jenkinsActivate() {
 
   JSESSIONID=$(curl -X GET -sS -H "Authorization: Bearer $SA_TOKEN" -D - "http://localhost:8080" -o /dev/null | grep JSESSIONID | sed "s/^Set-Cookie: \(.*\); Path=\(.*\)$/\1/")
 
-  echo "Jenkins admin password is: $(cat /tmp/jenkins_home/secrets/initialAdminPassword)"
-
+  echo "Step1: enter $(cat /tmp/jenkins_home/secrets/initialAdminPassword) in http://localhost:8080/ and then install suggested plugins"
+  echo "Step2: push the button 'Install suggested plugins'"
   echo
 }
 
