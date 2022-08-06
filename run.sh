@@ -6,13 +6,12 @@ cleanup() {
   echo -n "Stopping container: "
   docker stop $consul_server 2>/dev/null
   test $? -eq 0 || echo "no any"
-  echo
   echo -n "Removing container: "
   docker rm $consul_server 2>/dev/null
-  test $? -eq 0 || echo "no any"
-  echo
+  test $? -eq 0 || echo -n "no any"
   docker ps -a | grep $consul_server
   echo --------------
+  echo
 
 }
 
@@ -32,17 +31,17 @@ csrv_start() {
     -p 8500:8500 \
     -p 8600:8600/udp \
     --name=$consul_server \
-    consul agent -server -ui -node=server-1 -bootstrap-expect=1 -client=0.0.0.0
+    consul agent -server -ui -node=server-1 -bootstrap-expect=1 -client=0.0.0.0 || tee -a all.log
 }
 
 click1() {
 
-  echo
   echo Click 1
   echo -------
   echo 1st click for initializing your environment
   echo -------------------------------------------
   echo Clicking 1...
+  echo -------------
 
   csrv_start
 }
