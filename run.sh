@@ -46,6 +46,7 @@ client_start() {
   echo Starting consul client
   echo ">>>>>>>>>>>>>>>>>>>>>>"
   docker run \
+    -d \
     --name=${consul_client} \
     consul agent -node=client-1 -join=172.17.0.2
   echo
