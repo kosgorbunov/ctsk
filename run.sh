@@ -11,6 +11,7 @@ cleanup() {
   test $? -eq 0 || echo "no any"
   #  docker ps -a | grep "${1}"
   #  touch $logfile
+  wipe_jenkinshome
   echo ---------------------------
   echo
 }
@@ -19,7 +20,9 @@ wipe_jenkinshome() {
 
   echo Wiping Jenkins home...
   echo ----------------------
+  echo "Press any key to wipe ${jenkins_home}"
   rm -rf $jenkins_home
+  echo
 }
 
 getImages() {
@@ -71,7 +74,7 @@ jenkinsStart() {
     -d \
     -p 8080:8080 -p 50000:50000 \
     --name=$jenkins \
-    -v /tmp/jenkins_home:/var/jenkins_home \
+    -v $jenkins_home:/var/jenkins_home \
     jenkins/jenkins:lts-jdk11 | tee -a $logfile &>/dev/null
   echo
 }
