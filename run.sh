@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+wipe_jenkinshome() {
+
+  echo Wiping Jenkins home...
+  echo ----------------------
+  echo "Press any key to wipe ${jenkins_home}"
+  rm -rf $jenkins_home
+  echo
+}
+
 cleanup() {
   echo Cleanup "${1}"...
   echo ---------------------------
@@ -16,17 +25,9 @@ cleanup() {
   echo
 }
 
-wipe_jenkinshome() {
-
-  echo Wiping Jenkins home...
-  echo ----------------------
-  echo "Press any key to wipe ${jenkins_home}"
-  rm -rf $jenkins_home
-  echo
-}
-
 getImages() {
-  echo Pulling image
+  echo Pulling images
+  echo ">>>>>>>>>>>>>>"
   docker pull consul | tee -a $logfile &>/dev/null
   docker pull jenkins/jenkins:lts-jdk11 | tee -a $logfile &>/dev/null
   docker images -f 'reference=consul' | tee -a $logfile &>/dev/null
