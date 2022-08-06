@@ -3,13 +3,16 @@
 cleanup() {
   echo Cleanup now...
   echo --------------
-  echo -n "Stopping container "
+  echo -n "Stopping container: "
   docker stop $consul_server 2>/dev/null
-  echo -n "Removing container "
+  test $? -eq 0 || echo "no any"
+  echo
+  echo -n "Removing container: "
   docker rm $consul_server 2>/dev/null
-  docker ps $consul_server
+  test $? -eq 0 || echo "no any"
+  echo
+  docker ps -a | grep $consul_server
   echo --------------
-
 
 }
 
