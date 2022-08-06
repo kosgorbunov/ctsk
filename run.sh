@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 
+cleanup() {
+  echo Cleanup now...
+  echo ----------------
+  echo Cleaning...
+  echo Stopping consul server
+  docker stop $consul_server
+}
+
 init() {
   export consul_server=csrv
+  cleanup
+
 }
 
 csrv_start() {
@@ -32,14 +42,6 @@ justwaiting() {
   docker ps
   echo "waiting ${1} seconds"
   sleep "${1}"
-
-}
-cleanup() {
-  echo Cleanup now...
-  echo ----------------
-  echo Cleaning...
-  echo Stopping consul server
-  docker stop $consul_server
 }
 
 init
