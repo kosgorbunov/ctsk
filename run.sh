@@ -159,7 +159,7 @@ wipingJenkinshome
 
 click1
 #justwaiting 3
-jenkinsActivate
+#jenkinsActivate
 
 echo "Press any key to stop containers and cleanup"
 read
