@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
 
-wipe_jenkinshome() {
-
-  echo Wiping Jenkins home...
-  echo ----------------------
-  echo "Press any key to wipe ${jenkins_home}"
-  rm -rf $jenkins_home
-  echo
-}
-
 cleanup() {
   echo Cleanup "${1}"...
   echo ---------------------------
@@ -20,8 +11,11 @@ cleanup() {
   test $? -eq 0 || echo "no any"
   #  docker ps -a | grep "${1}"
   #  touch $logfile
-  wipe_jenkinshome
-  echo ---------------------------
+
+  echo Wiping Jenkins home...
+  echo ----------------------
+  echo "Press any key to wipe ${jenkins_home}"
+  rm -rf $jenkins_home
   echo
 }
 
