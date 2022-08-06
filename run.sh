@@ -15,6 +15,13 @@ cleanup() {
   echo
 }
 
+wipe_jenkinshome() {
+
+  echo Wiping Jenkins home...
+  echo ----------------------
+  rm -rf $jenkins_home
+}
+
 getImages() {
   echo Pulling image
   docker pull consul | tee -a $logfile &>/dev/null
@@ -29,6 +36,7 @@ init() {
   export consul_client=clnt
   export jenkins=jenkins
   export logfile=all.log
+  export jenkins_home=/tmp/jenkins_home
   cleanup
 }
 
@@ -58,10 +66,12 @@ clientStart() {
 jenkinsStart() {
   echo Starting Jenkins
   echo ">>>>>>>>>>>>>>>>"
+  mkdir -p $jenkins_home
   docker run \
     -d \
     -p 8080:8080 -p 50000:50000 \
     --name=$jenkins \
+    -v /tmp/jenkins_home:/var/jenkins_home \
     jenkins/jenkins:lts-jdk11 | tee -a $logfile &>/dev/null
   echo
 }
@@ -90,7 +100,9 @@ justwaiting() {
 
 init
 click1
-justwaiting 9
+#justwaiting 9
+echo "Press any key to stop and cleanup"
+read
 cleanup $consul_server
 cleanup $consul_client
 cleanup $jenkins
