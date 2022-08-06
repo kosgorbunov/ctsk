@@ -118,6 +118,7 @@ jenkinsInit() {
   #  echo "Step3: push the button 'Install suggested plugins'"
 
   curl -v http://localhost:8080/
+  justwaiting 1
   curl -v -d "security-token=$(cat /tmp/jenkins_home/secrets/initialAdminPassword)" -X POST http://localhost:8080/login?from=%2F
   echo "Jenkins admin password is: $(cat /tmp/jenkins_home/secrets/initialAdminPassword)"
 
