@@ -5,6 +5,8 @@ cleanup() {
   echo --------------
   echo Stopping consul server
   docker stop $consul_server
+  docker rm $consul_server
+
 }
 
 init() {
@@ -28,8 +30,9 @@ csrv_start() {
 
 click1() {
 
+  echo
   echo Click 1
-  echo ------------
+  echo -------
   echo 1st click for initializing your environment
   echo -------------------------------------------
   echo Clicking 1...
