@@ -43,7 +43,7 @@ wipingJenkinshome() {
   echo Wiping Jenkins home...
   echo ----------------------
   echo "Press any key to wipe ${jenkins_home}"
-  read
+#  read
   rm -rf $jenkins_home
 }
 
@@ -109,7 +109,7 @@ jenkinsBanner() {
   echo Jenkins banner:
   echo ---------------
   echo "Step1: enter below passphrase in http://localhost:8080/ and then install suggested plugins"
-  echo "Step2: paste there next passphras: ${cat  /tmp/jenkins_home/secrets/initialAdminPassword} "
+  echo "Step2: paste there next passphras: $(cat  /tmp/jenkins_home/secrets/initialAdminPassword)"
   echo "Step3: push the button 'Install suggested plugins'"
   echo
 }
@@ -121,6 +121,7 @@ wipingJenkinshome
 click1
 justwaiting 5
 jenkinsBanner
+
 echo "Press any key to stop containers and cleanup"
 read
 cleanup $consul_server
