@@ -91,7 +91,7 @@ jenkinsStart() {
 
   echo "Jenkins up and running"
 
-  curl -v http://localhost:8080/
+#  curl -v http://localhost:8080/
   echo
 }
 
@@ -139,7 +139,7 @@ jenkinsActivate() {
 
   JSESSIONID=$(curl -X GET -sS -H "Authorization: Bearer $SA_TOKEN" -D - "http://localhost:8080" -o /dev/null | grep JSESSIONID | sed "s/^Set-Cookie: \(.*\); Path=\(.*\)$/\1/")
 
-  echo "Step1: enter $(cat /tmp/jenkins_home/secrets/initialAdminPassword) in http://localhost:8080/ and then install suggested plugins"
+  echo "Step1: enter $(cat /tmp/jenkins_home/secrets/initialAdminPassword) in http://localhost:8080/"
   echo "Step2: push the button 'Install suggested plugins'"
   echo
 }
