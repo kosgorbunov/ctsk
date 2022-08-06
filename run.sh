@@ -83,14 +83,15 @@ jenkinsStart() {
     -v $jenkins_home:/var/jenkins_home \
     jenkins/jenkins:lts-jdk11 | tee -a $logfile &>/dev/null
 
-    echo "Waiting jenkins to launch on 8080..."
-    while ! nc -z localhost 8080; do
-      sleep 0.5
-    done
+  echo "Waiting jenkins to launch on 8080..."
+  while ! nc -z localhost 8080; do
+    sleep 0.5
+    echo .
+  done
 
-    echo "Jenkins up and running"
+  echo "Jenkins up and running"
 
-    curl -v http://localhost:8080/
+  curl -v http://localhost:8080/
   echo
 }
 
@@ -132,7 +133,10 @@ jenkinsActivate() {
   done
   echo
 
-  curl -v -d "security-token=$(cat /tmp/jenkins_home/secrets/initialAdminPassword)" -X POST http://localhost:8080/login?from=%2F
+#  curl -v -d "security-token=$(cat /tmp/jenkins_home/secrets/initialAdminPassword)" -X POST http://localhost:8080/login?from=%2F
+
+  JSESSIONID=$(curl -X GET -sS -H "Authorization: Bearer $SA_TOKEN" -D - "http://localhost:8080" -o /dev/null | grep JSESSIONID | sed "s/^Set-Cookie: \(.*\); Path=\(.*\)$/\1/")
+
   echo "Jenkins admin password is: $(cat /tmp/jenkins_home/secrets/initialAdminPassword)"
 
   echo
@@ -143,7 +147,7 @@ init
 wipingJenkinshome
 
 click1
-justwaiting 3
+#justwaiting 3
 jenkinsActivate
 
 echo "Press any key to stop containers and cleanup"
