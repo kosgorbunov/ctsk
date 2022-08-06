@@ -9,6 +9,7 @@ cleanup() {
   echo -n "Removing container: "
   docker rm "${1}" 2>/dev/null
   test $? -eq 0 || echo "no any"
+  echo
   #  docker ps -a | grep "${1}"
   #  touch $logfile
 }
@@ -24,6 +25,7 @@ getImages() {
 init() {
   echo CTask implementation purposed
   echo -----------------------------
+  echo
   export consul_server=csrv
   export consul_client=clnt
   export jenkins=jenkins
@@ -43,7 +45,6 @@ wipingJenkinshome() {
   echo "Press any key to wipe ${jenkins_home}"
   read
   rm -rf $jenkins_home
-  echo
 }
 
 serverStart() {
@@ -105,8 +106,12 @@ justwaiting() {
 }
 
 jenkinsBanner() {
-  echo "Enter below passphrase in http://localhost:8080/ and then install suggested plugins"
-  cat ${jenkins_home}/secrets/initialAdminPassword
+  echo Jenkins banner:
+  echo ---------------
+  echo "Step1: enter below passphrase in http://localhost:8080/ and then install suggested plugins"
+  echo "Step2: paste there next passphras: ${cat  /tmp/jenkins_home/secrets/initialAdminPassword} "
+  echo "Step3: push install suggested plugins"
+  echo
 }
 
 init
