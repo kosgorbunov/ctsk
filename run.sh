@@ -94,6 +94,8 @@ jenkinsStart() {
   done
 
   echo "Jenkins up and running"
+  echo ------------------------
+  echo "URL is http://localhost:8080/"
 
 #  curl -v http://localhost:8080/
   echo
