@@ -1,1 +1,3 @@
 # ctsk
+
+Run run.sh
