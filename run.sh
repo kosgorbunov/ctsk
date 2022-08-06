@@ -131,23 +131,23 @@ jenkinsActivate() {
   #  echo "Step2: paste there next passphras: $(cat  /tmp/jenkins_home/secrets/initialAdminPassword)"
   #  echo "Step3: push the button 'Install suggested plugins'"
 
-  echo "Waiting initialAdminPassword to appear..."
-
-  while [ ! -f /tmp/jenkins_home/secrets/initialAdminPassword ]; do
-    sleep 0.5
-    echo -n .
-  done
-  echo
+#  echo "Waiting initialAdminPassword to appear..."
+#
+#  while [ ! -f /tmp/jenkins_home/secrets/initialAdminPassword ]; do
+#    sleep 0.5
+#    echo -n .
+#  done
+#  echo
 
 #  curl -v -d "security-token=$(cat /tmp/jenkins_home/secrets/initialAdminPassword)" -X POST http://localhost:8080/login?from=%2F
 
 #  JSESSIONID=$(curl -X GET -sS -H "Authorization: Bearer $SA_TOKEN" -D - "http://localhost:8080" -o /dev/null | grep JSESSIONID | sed "s/^Set-Cookie: \(.*\); Path=\(.*\)$/\1/")
 
-  echo "Step1: enter $(cat /tmp/jenkins_home/secrets/initialAdminPassword) in http://localhost:8080/"
-  echo "Step2: push the button 'Install suggested plugins'"
-  echo "Step3: user creation: skip and continue as admin"
-  echo "Step4: keep Jenkins URL as default"
-  echo "Step5: Save and Finish"
+#  echo "Step1: enter $(cat /tmp/jenkins_home/secrets/initialAdminPassword) in http://localhost:8080/"
+#  echo "Step2: push the button 'Install suggested plugins'"
+#  echo "Step3: user creation: skip and continue as admin"
+#  echo "Step4: keep Jenkins URL as default"
+#  echo "Step5: Save and Finish"
 
 
   echo
