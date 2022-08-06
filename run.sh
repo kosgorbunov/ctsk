@@ -3,10 +3,15 @@
 cleanup() {
   echo Cleanup now...
   echo --------------
+  set +x
   echo -n "Stopping container: "
-  docker stop $consul_server || true
+  docker stop $consul_server
+  set -x
+  set +x
   echo -n "Removing container: "
-  docker rm $consul_server || true
+  docker rm $consul_server
+  set -x
+
 
 }
 
