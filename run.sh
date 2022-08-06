@@ -99,6 +99,7 @@ jenkinsStart() {
     sleep 0.5
   done
   echo "Jenkins is fully up and running"
+  echo "Link is http://localhost:8080"
   echo
 }
 
