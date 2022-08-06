@@ -43,9 +43,10 @@ wipingJenkinshome() {
 
   echo Wiping Jenkins home...
   echo ----------------------
-  echo "Press any key to wipe ${jenkins_home}"
-#  read
+  #  echo "Press any key to wipe ${jenkins_home}"
+  #  read
   rm -rf $jenkins_home
+  echo
 }
 
 serverStart() {
@@ -81,7 +82,6 @@ jenkinsStart() {
     --name=$jenkins \
     -v $jenkins_home:/var/jenkins_home \
     jenkins/jenkins:lts-jdk11 | tee -a $logfile &>/dev/null
-    curl -v http://localhost:8080/
   echo
 }
 
@@ -107,12 +107,20 @@ justwaiting() {
   echo
 }
 
-jenkinsBanner() {
+jenkinsInit() {
   echo Jenkins banner:
   echo ---------------
-  echo "Step1: enter below passphrase in http://localhost:8080/ and then install suggested plugins"
-  echo "Step2: paste there next passphras: $(cat  /tmp/jenkins_home/secrets/initialAdminPassword)"
-  echo "Step3: push the button 'Install suggested plugins'"
+
+  #  http://localhost:8080/login?from=%2F
+  # security-token
+  #  echo "Step1: enter below passphrase in http://localhost:8080/ and then install suggested plugins"
+  #  echo "Step2: paste there next passphras: $(cat  /tmp/jenkins_home/secrets/initialAdminPassword)"
+  #  echo "Step3: push the button 'Install suggested plugins'"
+
+  curl -v http://localhost:8080/
+  curl -v -d "security-token=$(cat /tmp/jenkins_home/secrets/initialAdminPassword)" -X POST http://localhost:8080/login?from=%2F
+  echo "Jenkins admin password is: $(cat /tmp/jenkins_home/secrets/initialAdminPassword)"
+
   echo
 }
 
@@ -121,8 +129,8 @@ init
 wipingJenkinshome
 
 click1
-#justwaiting 5
-jenkinsBanner
+justwaiting 3
+jenkinsInit
 
 echo "Press any key to stop containers and cleanup"
 read
