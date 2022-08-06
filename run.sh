@@ -36,6 +36,7 @@ init() {
   cleanup $jenkins
   # TODO declare used ports
   # TODO check if ports not occupied
+  # check docker and curl availability
 }
 
 wipingJenkinshome() {
@@ -80,6 +81,7 @@ jenkinsStart() {
     --name=$jenkins \
     -v $jenkins_home:/var/jenkins_home \
     jenkins/jenkins:lts-jdk11 | tee -a $logfile &>/dev/null
+    curl -v http://localhost:8080/
   echo
 }
 
@@ -119,7 +121,7 @@ init
 wipingJenkinshome
 
 click1
-justwaiting 5
+#justwaiting 5
 jenkinsBanner
 
 echo "Press any key to stop containers and cleanup"
