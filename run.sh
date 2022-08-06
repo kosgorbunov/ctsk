@@ -98,7 +98,7 @@ jenkinsStart() {
     echo -n .
     sleep 1
   done
-  echo "Jenkins up and running"
+  echo "Jenkins is fully up and running"
 
   echo
 }
