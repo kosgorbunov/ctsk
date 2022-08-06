@@ -92,11 +92,11 @@ jenkinsStart() {
   #    echo -n .
   #  done
 
-  echo "Waiting jenkins to launch on 8080..."
+  echo -n "Waiting jenkins to launch on 8080"
   #  wget --tries=30 --read-timeout=20 http://localhost:8080/ && echo "Jenkins up and running" && echo ------------------------ && echo "URL is http://localhost:8080/"
   while ! wget -q http://localhost:8080 | tee -a $logfile &>/dev/null; do
     echo -n .
-    sleep 1
+    sleep 0.5
   done
   echo "Jenkins is fully up and running"
 
