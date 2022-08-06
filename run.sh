@@ -15,6 +15,7 @@ cleanup() {
   echo Wiping Jenkins home...
   echo ----------------------
   echo "Press any key to wipe ${jenkins_home}"
+  read
   rm -rf $jenkins_home
   echo
 }
@@ -64,7 +65,7 @@ clientStart() {
 jenkinsStart() {
   echo Starting Jenkins
   echo ">>>>>>>>>>>>>>>>"
-  mkdir -p $jenkins_home
+  mkdir -vp $jenkins_home
   docker run \
     -d \
     -p 8080:8080 -p 50000:50000 \
@@ -96,10 +97,16 @@ justwaiting() {
   echo
 }
 
+jenkinsBanner() {
+  echo "Enter below passphrase in http://localhost:8080/ and then install suggested plugins"
+  cat /tmp/jenkins_home/secrets/initialAdminPassword
+}
+
 init
 click1
-#justwaiting 9
-echo "Press any key to stop and cleanup"
+justwaiting 5
+jenkinsBanner
+echo "Press any key to stop containers and cleanup"
 read
 cleanup $consul_server
 cleanup $consul_client
