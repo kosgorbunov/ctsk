@@ -62,7 +62,8 @@ jenkinsStart() {
     -d \
     -p 8080:8080 -p 50000:50000 \
     --name=$jenkins \
-    jenkins | tee -a $logfile &>/dev/null
+    jenkins/jenkins:lts-jdk11 | tee -a $logfile &>/dev/null
+  echo
 }
 
 click1() {
