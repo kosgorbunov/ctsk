@@ -2,16 +2,16 @@
 
 cleanup() {
   echo Cleanup now...
-  echo ----------------
-  echo Cleaning...
+  echo --------------
   echo Stopping consul server
   docker stop $consul_server
 }
 
 init() {
+  echo CTask implementation purposed
+  echo -----------------------------
   export consul_server=csrv
   cleanup
-
 }
 
 csrv_start() {
@@ -27,8 +27,7 @@ csrv_start() {
 }
 
 click1() {
-  echo CTask implementation purposed
-  echo ----------------------------
+
   echo Click 1
   echo ------------
   echo 1st click for initializing your environment
