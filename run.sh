@@ -11,13 +11,6 @@ cleanup() {
   test $? -eq 0 || echo "no any"
   #  docker ps -a | grep "${1}"
   #  touch $logfile
-
-  echo Wiping Jenkins home...
-  echo ----------------------
-  echo "Press any key to wipe ${jenkins_home}"
-  read
-  rm -rf $jenkins_home
-  echo
 }
 
 getImages() {
@@ -41,6 +34,16 @@ init() {
   cleanup $jenkins
   # TODO declare used ports
   # TODO check if ports not occupied
+}
+
+wipingJenkinshome() {
+
+  echo Wiping Jenkins home...
+  echo ----------------------
+  echo "Press any key to wipe ${jenkins_home}"
+  read
+  rm -rf $jenkins_home
+  echo
 }
 
 serverStart() {
@@ -107,6 +110,9 @@ jenkinsBanner() {
 }
 
 init
+
+wipingJenkinshome
+
 click1
 justwaiting 5
 jenkinsBanner
@@ -115,3 +121,5 @@ read
 cleanup $consul_server
 cleanup $consul_client
 cleanup $jenkins
+
+wipingJenkinshome
