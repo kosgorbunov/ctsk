@@ -48,7 +48,7 @@ client_start() {
   docker run \
     -d \
     --name=${consul_client} \
-    consul agent -node=client-1 -join=172.17.0.2
+    consul agent -node=client-1 -join=172.17.0.2 | tee -a $logfile &>/dev/null
   echo
 }
 
@@ -76,4 +76,4 @@ init
 click1
 justwaiting 3
 cleanup $consul_server
-cleanup client
+cleanup $consul_client
