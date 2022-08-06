@@ -76,11 +76,13 @@ jenkinsStart() {
   echo Starting Jenkins
   echo ">>>>>>>>>>>>>>>>"
   mkdir -vp $jenkins_home | tee -a $logfile &>/dev/null
-  export JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-  export JENKINS_OPTS=--argumentsRealm.roles.user=admin --argumentsRealm.passwd.admin=admin --argumentsRealm.roles.admin=admin
+#  export JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+#  export JENKINS_OPTS=--argumentsRealm.roles.user=admin --argumentsRealm.passwd.admin=admin --argumentsRealm.roles.admin=admin
   docker run \
     -d \
     -p 8080:8080 -p 50000:50000 \
+    --env JAVA_OPTS="-Djenkins.install.runSetupWizard=false" \
+    --env JENKINS_OPTS="--argumentsRealm.roles.user=admin --argumentsRealm.passwd.admin=admin --argumentsRealm.roles.admin=admin" \
     --name=$jenkins \
     -v $jenkins_home:/var/jenkins_home \
     jenkins/jenkins:lts-jdk11 | tee -a $logfile &>/dev/null
